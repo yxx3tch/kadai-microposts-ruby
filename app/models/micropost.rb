@@ -8,7 +8,8 @@ class Micropost < ApplicationRecord
   has_many :favoriting_users, through: :favorites, source: :user
   
   def remove_favorites
-    favorite = self.favorites.find_by(favorite_id: self.id)
-    favorite.destroy if favorite
+    self.favorites.where(favorite_id: self.id).find_each do |favorite|
+      favorite.destroy
+    end
   end
 end
